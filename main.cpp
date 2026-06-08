@@ -1,5 +1,6 @@
 #include "CallTracker.h"
 #include <clocale>
+#include <iostream>
 
 int main() {
     setlocale(LC_ALL, "Russian");
@@ -9,13 +10,13 @@ int main() {
         CallTracker tracker("Илон Маск", "+1-234-567-89-00");
         
         tracker.addCall(15.5);
-        tracker.addCall(45.0); 
+        tracker.addCall(45.0);
         tracker.addCall(5.2);
 
         tracker.printInfo();
         std::cout << "Средняя длительность звонка: " << tracker.getAverageDuration() << " мин.\n" << std::endl;
-
-    } catch (const std::exception& e) {
+    } 
+    catch (const std::exception& e) {
         std::cout << "Перехвачено исключение: " << e.what() << std::endl;
     }
 
@@ -23,7 +24,7 @@ int main() {
 
     try {
         CallTracker testTracker("Тест", "+375291112233");
-        testTracker.addCall(-5); 
+        testTracker.addCall(-5);
     } catch (const std::exception& e) {
         std::cout << "Сработало исключение для addCall(): " << e.what() << std::endl;
     }
