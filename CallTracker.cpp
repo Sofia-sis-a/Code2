@@ -3,11 +3,8 @@
 #include <stdexcept>
 
 CallTracker::CallTracker(const char* name, const char* phone) {
-    if (name == nullptr) {
-        throw std::invalid_argument("Ошибка: Указатель на имя не может быть нулевым (nullptr)!");
-    }
-    if (phone == nullptr) {
-        throw std::invalid_argument("Ошибка: Указатель на телефон не может быть нулевым (nullptr)!");
+    if (name == nullptr || phone == nullptr) {
+        throw std::invalid_argument("Ошибка: Указатели не могут быть nullptr!");
     }
     if (std::strlen(name) == 0) {
         throw std::logic_error("Ошибка: Имя абонента не может быть пустым!");
@@ -21,16 +18,19 @@ CallTracker::CallTracker(const char* name, const char* phone) {
 
     phoneNumber = new char[std::strlen(phone) + 1];
     std::strcpy(phoneNumber, phone);
-
-    maxCallDuration = 0.0;
-    minCallDuration = 0.0;
-    totalDuration = 0.0;
-    totalCalls = 0;
 }
 
 CallTracker::~CallTracker() {
     delete[] subscriberName;
     delete[] phoneNumber;
+}
+
+const char* CallTracker::getName() const { 
+    return subscriberName; 
+}
+
+const char* CallTracker::getPhone() const { 
+    return phoneNumber; 
 }
 
 double CallTracker::getMaxDuration() const { return maxCallDuration; }
@@ -46,7 +46,7 @@ double CallTracker::getAverageDuration() const {
 }
 
 bool CallTracker::isFrequentCommunication() const {
-    return totalDuration > 60.0;
+    return totalDuration > FREQUENT_THRESHOLD;
 }
 
 void CallTracker::addCall(double duration) {
